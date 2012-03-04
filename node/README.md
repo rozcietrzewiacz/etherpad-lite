@@ -10,4 +10,5 @@ Module file names start with a capital letter and uses camelCase
 
 # Where does it start?
 
-server.js is started directly
+- On a standard setup, `server.js` is started either directly or via `../bin/run.sh`.
+- When using CloudFoundry, the `server.js` is started by `../app.js`.

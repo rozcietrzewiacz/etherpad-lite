@@ -379,8 +379,8 @@ async.waterfall([
       });
     });
     
-    //serve an *index.html under / <-- this is replaced with a useless file, 
-    // unless "secretindex" setting is left unset.
+    //Serve a *index.html under / <-- this is replaced with a useless file, 
+    // unless "secretindex" setting is left unset (commented out) in settings.json
     app.get('/', function(req, res)
     {
       var filePath;
