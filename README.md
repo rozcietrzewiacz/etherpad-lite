@@ -1,3 +1,15 @@
+This is a modified version of [etherpad-lite](https://github.com/Pita/etherpad-lite), customized for use use with 
+the [CloudFoundry](http://www.cloudfoundry.com/) cloud-based webapp hosting.
+
+Initial CF support based on [andl](https://github.com/andl/etherpad-lite)'s work.
+
+
+-----------------------------------
+
+*original README starts below*
+
+-----------------------------------
+
 # Our goal is to make collaborative editing the standard on the web
 
 # About
