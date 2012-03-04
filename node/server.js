@@ -396,7 +396,7 @@ async.waterfall([
     });
     
    
-    //XXX special location for the actual frontend (what originally was index.html)
+    // special location for the actual frontend (what originally was index.html)
     if(settings.secretindex)
     {
         app.get('/' + settings.secretindex, function(req, res)
