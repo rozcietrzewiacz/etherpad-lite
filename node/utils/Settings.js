@@ -1,5 +1,5 @@
 /**
- * The Settings Modul reads the settings out of settings.json and provides 
+ * The Settings Modul reads the settings out of settings.json and provides
  * this information to the other modules
  */
 
@@ -28,7 +28,7 @@ var argv = require('./Cli').argv;
  * The IP ep-lite should listen to
  */
 exports.ip = "0.0.0.0";
-  
+
 /**
  * The Port ep-lite should listen to
  */
@@ -94,12 +94,22 @@ exports.abiwordAvailable = function()
   }
 }
 
+
+// The secret index location (defaults to unset)
+exports.secretindex = null;
+
+/**
+ * xhr-polling duration
+ */
+exports.pollingDuration = 10;
+
 // Discover where the settings file lives
-var settingsFilename = argv.settings || "settings.json";
-var settingsPath = settingsFilename.charAt(0) == '/' ? '' : path.normalize(__dirname + "/../../");
+//XXX var settingsFilename = argv.settings || "settings.json";
+//XXX var settingsPath = settingsFilename.charAt(0) == '/' ? '' : path.normalize(__dirname + "/../../");
 
 //read the settings sync
-var settingsStr = fs.readFileSync(settingsPath + settingsFilename).toString();
+var settingsPath = argv.settings || path.normalize(__dirname + "/../../");
+var settingsStr = fs.readFileSync(settingsPath + "settings.json").toString();
 
 //remove all comments
 settingsStr = settingsStr.replace(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/gm,"").replace(/#.*/g,"").replace(/\/\/.*/g,"");
@@ -136,5 +146,37 @@ for(var i in settings)
   {
     console.warn("Unkown Setting: '" + i + "'");
     console.warn("This setting doesn't exist or it was removed");
+  }
+}
+
+// If deployed in CloudFoundry
+if(process.env.VCAP_APP_PORT) {
+  exports.port = process.env.VCAP_APP_PORT
+}
+
+
+// use mysql if provided.
+var vcap_services = process.env.VCAP_SERVICES;
+
+if(vcap_services) {
+  console.log("env VCAP_SERVICES:" + vcap_services)
+  var svcs = JSON.parse(vcap_services)
+  for(var key in svcs ) {
+    console.log("key:" + key)
+    var svc = svcs[key]
+    console.log("service:" + svc)
+    if( key.match(/^mysql/) ) {
+      console.log("FOUND mysql")
+      exports.dbType= "mysql";
+      var cred = svc[0].credentials
+      exports.dbSettings = {
+        "user" : cred.user ,
+        "host" : cred.host ,
+        "port" : cred.port ,
+        "password" : cred.password ,
+        "database" : cred.name 
+      };
+    }
+    console.log("database setup: host = " + exports.dbSettings.host)
   }
 }
