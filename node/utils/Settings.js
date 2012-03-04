@@ -95,6 +95,9 @@ exports.abiwordAvailable = function()
 }
 
 
+// The secret index location (defaults to unset)
+exports.secretindex = null;
+
 /**
  * xhr-polling duration
  */

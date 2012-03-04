@@ -379,13 +379,34 @@ async.waterfall([
       });
     });
     
-    //serve index.html under /
+    //serve an *index.html under / <-- this is replaced with a useless file, 
+    // unless "secretindex" setting is left unset.
     app.get('/', function(req, res)
     {
-      var filePath = path.normalize(__dirname + "/../static/index.html");
+      var filePath;
+      if(settings.secretindex)
+      { 
+          filePath = path.normalize(__dirname + "/../static/empty-index.html");
+      }
+      else 
+      { 
+          filePath = path.normalize(__dirname + "/../static/standard-index.html");
+      }
       res.sendfile(filePath, { maxAge: exports.maxAge });
     });
     
+   
+    //XXX special location for the actual frontend (what originally was index.html)
+    if(settings.secretindex)
+    {
+        app.get('/' + settings.secretindex, function(req, res)
+        {
+          var filePath = path.normalize(__dirname + "/../static/standard-index.html");
+          res.sendfile(filePath, { maxAge: exports.maxAge });
+        });
+    }
+
+
     //serve robots.txt
     app.get('/robots.txt', function(req, res)
     {
