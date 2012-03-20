@@ -52,7 +52,7 @@
 
   /** The "secret" location, at which the standard "New/open pad" html page is served
    *  If unset, the page will be visible directly under http://hostname[:port]/ */
-  //"secretindex" : "SuperSecretRandomPhraseFWfko3r0322d2"
+  //"secretindex" : "SuperSecretRandomPhraseFWfko3r0322d2",
 
   /* The log level we are using, can be: DEBUG, INFO, WARN, ERROR */
   "loglevel": "INFO"
